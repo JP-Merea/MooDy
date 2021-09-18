@@ -8,6 +8,19 @@ wheel>=0.29
 numpy
 pandas
 scikit-learn
+pysentimiento
+joblib
+streamlit
+heroku
+memoized-property
+mlflow
+s3fs
+gcsfs
+google-cloud-storage
+termcolor
+uvicorn 
+fastapi
+
 
 # tests/linter
 black
