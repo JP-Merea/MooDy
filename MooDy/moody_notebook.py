@@ -217,7 +217,7 @@ def remove_emojis(data):
         u"\u231a"
         u"\ufe0f"  # dingbats
         u"\u3030"
-                      "]+", re.UNICODE)
+            "]+", re.UNICODE)
     return re.sub(emoj, '', data)
 
 import string
