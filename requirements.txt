@@ -7,6 +7,13 @@ wheel>=0.29
 # data science
 numpy
 pandas
+seaborn
+math
+numpy
+matplotlib.pyplot
+string
+nltk
+re
 scikit-learn
 pysentimiento
 joblib
