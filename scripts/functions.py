@@ -1,7 +1,7 @@
 from pysentimiento import SentimentAnalyzer, EmotionAnalyzer 
 import pandas as pd
 import numpy as np 
-import math 
+import math
 
 
 class analizer:
