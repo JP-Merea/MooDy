@@ -7,7 +7,7 @@
 - Conclution:Type of analysis
 
 ## 📊 About
-Information has always been a fundamental axis for any organization and institution, from the incorporation of artificial intelligence it has been possible to generate dynamic metrics that facilitate the reading of social humor, interests, and opinions. MooDy works in different level, first analyze if the comment is positive, negative, or neutral. For doing this we work in our threshold to make this difference representative. Then we evaluate the historical value of the dollar, and the model will predict if it’s goes up or down.
+<div style="text-align: justify">Information has always been a fundamental axis for any organization and institution, from the incorporation of artificial intelligence it has been possible to generate dynamic metrics that facilitate the reading of social humor, interests, and opinions. MooDy works in different level, first analyze if the comment is positive, negative, or neutral. For doing this we work in our threshold to make this difference representative. Then we evaluate the historical value of the dollar, and the model will predict if it’s goes up or down.</div>
 
 ## 🗄 Data
 For the Dataset we work with a Dataset called “Digital Narratives of COVID-19” that merged more than a million twits from America related with COVID. We just take Argentina. This dataset was created as a partnership between the CONICET (Argentina) and the University of Miami (USA).
