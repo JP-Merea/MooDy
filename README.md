@@ -1,4 +1,4 @@
-<h1 align="center">MooDy :sunny:</h1>
+<h1 align="center">  MooDy 😁😐🤬</h1>
 <h3 align="center">Covid, Health and Economy Dilemma</h3>
 
 ## 🔎 Index
