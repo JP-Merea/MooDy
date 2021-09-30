@@ -20,5 +20,5 @@ We chose this variable because it presents a certain autonomy considering that i
 ## 📫 Contact us!
    - @JP-Merea [https://github.com/JP-Merea](https://github.com/JP-Merea)
    - @MauroSandoval [https://github.com/MauroSandoval](https://github.com/MauroSandoval)
-   - @sfsilvajacquier [https://github.com/sfsilvajacquie](https://github.com/sfsilvajacquiel)
+   - @sfsilvajacquier [https://github.com/sfsilvajacquier(https://github.com/sfsilvajacquier)
     
