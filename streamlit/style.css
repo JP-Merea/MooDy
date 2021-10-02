@@ -1,0 +1,48 @@
+.reportview-container .main .block-container{
+    max-width: 80%;
+    padding-top: 5rem;
+    padding-right: 5rem;
+    padding-left: 5rem;
+    padding-bottom: 5rem;
+    color: red;
+}
+.results-html{
+    background-color: #0e1117;
+}
+img{
+    max-width:10%;
+    margin-bottom:10px;
+}
+iframe{
+    height: 290px;
+}
+
+.alza{
+    border: green 1px solid;
+    color: green;
+    font-size: 20px;
+    padding: 10px;
+    margin: 30px;
+    height: 50px;
+    width: auto;
+}
+
+.estable{
+    border: yellow 1px solid;
+    color: yellow;
+    font-size: 20px;
+    padding: 10px;
+    margin: 30px;
+    height: 50px;
+    width: auto;
+}
+
+.baja{
+    border: red 1px solid;
+    color: red;
+    font-size: 20px;
+    padding: 10px;
+    margin: 30px;
+    height: 50px;
+    width: auto;
+}
