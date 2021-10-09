@@ -50,6 +50,13 @@ with header_container:
  
 with results_container:
     col_1, col_2 = st.columns(2)
+    
+    filename = st.text_input('Enter a file path:')
+    try:
+        with open(filename) as input:
+            st.text(input.read())
+    except FileNotFoundError:
+        st.error('File not found.')
     RESULTS = (f"""
     <head><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"></head>
     <body class='results-html'>

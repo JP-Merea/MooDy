@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # Import modules
 import pandas as pd
 import numpy as np
@@ -5,8 +8,24 @@ import numpy as np
 # Data set
 df = pd.read_csv('/content/drive/MyDrive/labeled_tweets.csv')
 
+class days_lag:
+    def get_labels2(threshold, df):
+        aux = df.groupby('fecha').agg({'fut_bid_2':'mean', 'bid':'mean', 'text': 'count'}).reset_index()
+        aux['Label'] = aux.fut_bid_2.map(lambda x: 0 if x >= threshold else 1 if x <= -threshold else 2)
+        aux['Up'] = aux.fut_bid_2.map(lambda x: 1 if x >= threshold else 0)
+        aux['Down'] = aux.fut_bid_2.map(lambda x: 1 if x <= -threshold else 0)
+        aux['Cte'] = aux.fut_bid_2.map(lambda x: 1 if x > -threshold and x < threshold else 0)
+        #df_dia = aux.merge(blue[['fecha','bid','fut_bid']], left_on='fecha', right_on='fecha', how='outer')
+        #df_dia.dropna(subset = ['Output_label'], inplace=True)
+        aux.rename(columns = {'text':'n_tweets'}, inplace = True)
+        return aux.sort_values(by="fecha")
+
 # Logit (index)
-class logit:
+class logit_1:
+    
+    def __init__(self):
+        pass
+    
     def sigmoid(x):
         return 1 / (1 + np.exp(-x))
 
