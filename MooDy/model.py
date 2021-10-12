@@ -13,7 +13,7 @@ df = pd.read_csv('/content/drive/MyDrive/labeled_tweets.csv')
 
 class days_lag:
     def get_labels2(threshold, df):
-        aux = df.groupby('fecha').agg({'fut_bid_2':'mean', 'bid':'mean', 'text': 'count'}).reset_index()
+        aux = df.groupby('fecha').agg({'fut_bid_2':"mean", 'bid':'mean', 'text': 'count'}).reset_index()
         aux['Label'] = aux.fut_bid_2.map(lambda x: 0 if x >= threshold else 1 if x <= -threshold else 2)
         aux['Up'] = aux.fut_bid_2.map(lambda x: 1 if x >= threshold else 0)
         aux['Down'] = aux.fut_bid_2.map(lambda x: 1 if x <= -threshold else 0)

@@ -39,5 +39,5 @@ def get_clean_data(df, blue):
                 'favorite_count', 'retweet_count', 'user_verified','user_favourites_count',	'user_followers_count',	'user_friends_count',
                 'Most_Prob',	'NEG',	'POS',	'NEU', 'fut_bid_1','fut_bid_2','fut_bid_3', 'bid']]
     scaler = MinMaxScaler()
-    df_blue[['favorite_count', 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']] = scaler.fit_transform(df_blue[['favorite_count', 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']])
+    df_blue[["favorite_count", 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']] = scaler.fit_transform(df_blue[['favorite_count', 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']])
     return df_blue
