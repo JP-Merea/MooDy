@@ -1,6 +1,11 @@
+"""In this file we are going to make an index of a logit function. The objective was to make an index that can weigh our parameters and be more representive of 
+our dataset"""
+
 import pandas as pd
 import numpy as np
-import math
+from data import get_clean_data
+
+df_blue = get_clean_data()
 
 def get_labels(threshold, df):
     aux = df.groupby('fecha').agg({'fut_bid_2':'mean', 'bid':'mean', 'indice': 'mean'}).reset_index()
@@ -8,9 +13,11 @@ def get_labels(threshold, df):
     return aux
 
 def sigmoid(x):
+    """we are going to use to change a linear model to a logit one"""
     return 1 / (1 + np.exp(-x))
 
 def tweet_index(dfX, a, b, c, d, e, f, g, h):
+    
     dfX['indice'] = (a*dfX['POS'] + b*dfX['NEG'])*(c*dfX['retweet_count'] + d*dfX['user_followers_count'] + e*dfX['favorite_count']
                                                 + f*dfX['user_verified'] + g*dfX['user_favourites_count'] + h*dfX['user_friends_count'])
     return dfX
@@ -55,6 +62,56 @@ def update_params(*args):
     g_new = args[6] - args[14]
     h_new = args[7] - args[15]
     return a_new , b_new, c_new, d_new, e_new, f_new, g_new, h_new
+
+def train_model(target, label='Up'):
+    a = 0.1
+    b = 0.1
+    c = 0.1
+    d = 0.1
+    e = 0.1
+    f = 0.1
+    g = 0.1
+    h = 0.1
+    n_epoch = 200
+    loss_history = [loss(target[label],df_blue,a,b,c,d,e,f,g,h)]
+    a_history = [a]
+    b_history = [b]
+    c_history = [c]
+    d_history = [d]
+    e_history = [e]
+    f_history = [f]
+    g_history = [g]
+    h_history = [h]
+
+    for epoch in range(n_epoch):
+        new_a = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[0]
+        new_b = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[1]
+        new_c = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[2]
+        new_d = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[3]
+        new_e = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[4]
+        new_f = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[5]
+        new_g = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[6]
+        new_h = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[7]
+        a = new_a
+        b = new_b
+        c = new_c
+        d = new_d
+        e = new_e
+        f = new_f
+        g = new_g
+        h = new_h
+        loss_history.append(loss(target[label],df_blue,a,b,c,d,e,f,g,h))
+        a_history.append(a)
+        b_history.append(b)
+        c_history.append(c)
+        d_history.append(d)
+        e_history.append(e)
+        f_history.append(f)
+        g_history.append(g)
+        h_history.append(h)
+    print(loss(target[label],df_blue,a,b,c,d,e,f,g,h))
+    print(a,b,c,d,e,f,g,h)
+    return a,b,c,d,e,f,g,h
 
 def model_predict(df, target):
     labels = ['Up', 'Down', 'Cte']
