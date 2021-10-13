@@ -1,12 +1,9 @@
 import numpy as np 
 import pandas as pd 
 from tensorflow.keras.utils import to_categorical
-from sklearn.model_selection import train_test_split
-
 
 df = pd.read_csv('/content/drive/MyDrive/lstm_input2.csv')
 df = df[['indice','bid','Label']]
-
 
 def subsample_sequence(df, length):
     """
@@ -67,15 +64,3 @@ def get_X_y(df, sequence_lengths):
         y.append(to_categorical(yi))
         
     return X, y
-
-# Here we define the parameter to generate our train/test sets
-train_size = 600
-#test_size = round(0.6*train_size)
-
-min_seq_len = 20
-max_seq_len = 30
-
-sequence_lengths_train = np.random.randint(low=min_seq_len, high=max_seq_len, size=train_size)
-X, y = get_X_y(df, sequence_lengths_train)
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
