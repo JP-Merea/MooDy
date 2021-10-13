@@ -9,7 +9,7 @@ df1, df2 = get_data()
 df_blue = get_clean_data(df1,df2)
 
 def get_labels(threshold, df):
-    aux = df.groupby('fecha').agg({'fut_bid_2':'mean', 'bid':'mean', 'indice': 'mean'}).reset_index()
+    aux = df.groupby("fecha").agg({'fut_bid_2':'mean', 'bid':'mean', 'indice': 'mean'}).reset_index()
     aux['Label'] = aux.fut_bid_2.map(lambda x: 0 if x >= threshold else 1 if x <= -threshold else 2)
     return aux
 
