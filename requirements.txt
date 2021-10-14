@@ -7,9 +7,7 @@ wheel>=0.29
 # data science
 numpy
 pandas
-string
 nltk
-re
 scikit-learn
 pysentimiento
 joblib
