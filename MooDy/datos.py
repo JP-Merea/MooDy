@@ -41,3 +41,7 @@ def get_clean_data(df, blue):
     scaler = MinMaxScaler()
     df_blue[["favorite_count", 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']] = scaler.fit_transform(df_blue[['favorite_count', 'retweet_count', 'user_favourites_count',	'user_followers_count',	'user_friends_count']])
     return df_blue
+
+if __name__ == '__main__':
+    df, blue = get_data()
+    df = get_clean_data(df, blue)

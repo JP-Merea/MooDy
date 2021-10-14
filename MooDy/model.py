@@ -1,4 +1,5 @@
 
+import joblib
 import numpy as np
 import pandas as pd 
 from tensorflow.keras.callbacks import EarlyStopping
@@ -12,8 +13,8 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 
 
-df = pd.read_csv('/content/drive/MyDrive/lstm_input2.csv')
-df = df[['indice','bid','Label']]
+#df = pd.read_csv('/content/drive/MyDrive/lstm_input2.csv')
+#df = df[['indice','bid','Label']]
 
 def subsample_sequence(df, length):
     """
@@ -87,9 +88,7 @@ def init_model():
     model.add(layers.GRU(256, return_sequences=True, activation='tanh'))
     model.add(layers.GRU(128, return_sequences=True, activation='tanh',dropout=0.1))
     model.add(layers.GRU(64, return_sequences=True, activation='tanh',dropout=0.2))
-    model.add(layers.GRU(32, return_sequences=True, activation='tanh', dropout=0.3 ))
-    #model.add(Attention(32))
-    #model.add(Flatten())  
+    model.add(layers.GRU(32, return_sequences=True, activation='tanh', dropout=0.3 )) 
     model.add(layers.Dense(3, activation='softmax'))
     
     model.compile(
@@ -99,7 +98,7 @@ def init_model():
     )
     return model
 
-def train_split(): 
+def train_split(df): 
     # Here we define the parameter to generate our train/test sets
     train_size = 600
     #test_size = round(0.6*train_size)
@@ -110,9 +109,9 @@ def train_split():
     X_train, y_train = train_test_split(X, y, test_size=0.3, random_state=42)
     return X_train, y_train
 
-def train_model(self):
-    X_train_pad = pad_sequences(self.X_train, value=-1000., dtype=float, padding='post', maxlen=30)
-    y_train_pad = pad_sequences(self.y_train, value=-1000., dtype=float, padding='post', maxlen=30)
+def train_model(X_train, y_train):
+    X_train_pad = pad_sequences(X_train, value=-1000., dtype=float, padding='post', maxlen=30)
+    y_train_pad = pad_sequences(y_train, value=-1000., dtype=float, padding='post', maxlen=30)
     model = init_model()
     es = EarlyStopping(monitor='val_loss', verbose=1, patience=10, restore_best_weights=True)
     history = model.fit(X_train_pad, y_train_pad,
@@ -123,3 +122,5 @@ def train_model(self):
             verbose=1,
             )
     return history
+
+

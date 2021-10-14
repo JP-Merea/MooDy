@@ -93,3 +93,19 @@ with dolar_widget_container:
     
     components.iframe("https://dolar-plus.com/api/widget")
     
+#url = 'https://taxifare.lewagon.ai/predict'
+
+#params = dict(
+#    pickup_datetime=pickup_datetime,
+#    pickup_longitude=pickup_longitude,
+#    pickup_latitude=pickup_latitude,
+#    dropoff_longitude=dropoff_longitude,
+#    dropoff_latitude=dropoff_latitude,
+#    passenger_count=passenger_count)
+
+#response = requests.get(url, params=params)
+
+#prediction = response.json()
+
+#pred = prediction['prediction'] 
+#pred

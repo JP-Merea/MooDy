@@ -6,8 +6,8 @@ import numpy as np
 from datos import get_data, get_clean_data
 
 
-df1, df2 = get_data()   
-df_blue = get_clean_data(df1,df2)
+# df1, df2 = get_data()   
+# df_blue = get_clean_data(df1,df2)
 
 def get_labels(threshold, df):
     aux = df.groupby("fecha").agg({'fut_bid_2':'mean', 'bid':'mean', 'indice': 'mean'}).reset_index()
@@ -67,7 +67,7 @@ def update_params(*args):
     h_new = args[7] - args[15]
     return a_new , b_new, c_new, d_new, e_new, f_new, g_new, h_new
 
-def train_model(target, label='Up'):
+def train_model(df, target, label='Up'):
     """We train our model using the functions we have create before"""
     a = 0.1
     b = 0.1
@@ -78,7 +78,7 @@ def train_model(target, label='Up'):
     g = 0.1
     h = 0.1
     n_epoch = 200
-    loss_history = [loss(target[label],df_blue,a,b,c,d,e,f,g,h)]
+    loss_history = [loss(target[label],df,a,b,c,d,e,f,g,h)]
     a_history = [a]
     b_history = [b]
     c_history = [c]
@@ -89,14 +89,14 @@ def train_model(target, label='Up'):
     h_history = [h]
 
     for epoch in range(n_epoch):
-        new_a = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[0]
-        new_b = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[1]
-        new_c = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[2]
-        new_d = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[3]
-        new_e = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[4]
-        new_f = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[5]
-        new_g = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[6]
-        new_h = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df_blue,a,b,c,d,e,f,g,h), learning_rate=0.003))[7]
+        new_a = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[0]
+        new_b = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[1]
+        new_c = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[2]
+        new_d = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[3]
+        new_e = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[4]
+        new_f = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[5]
+        new_g = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[6]
+        new_h = update_params(a,b,c,d,e,f,g,h, *steps(*gradient(target[label],df,a,b,c,d,e,f,g,h), learning_rate=0.003))[7]
         a = new_a
         b = new_b
         c = new_c
@@ -105,7 +105,7 @@ def train_model(target, label='Up'):
         f = new_f
         g = new_g
         h = new_h
-        loss_history.append(loss(target[label],df_blue,a,b,c,d,e,f,g,h))
+        loss_history.append(loss(target[label],df,a,b,c,d,e,f,g,h))
         a_history.append(a)
         b_history.append(b)
         c_history.append(c)
@@ -114,7 +114,7 @@ def train_model(target, label='Up'):
         f_history.append(f)
         g_history.append(g)
         h_history.append(h)
-    print(loss(target[label],df_blue,a,b,c,d,e,f,g,h))
+    print(loss(target[label],df,a,b,c,d,e,f,g,h))
     print(a,b,c,d,e,f,g,h)
     return a,b,c,d,e,f,g,h
 
