@@ -21,7 +21,7 @@ def remote_css(url):
 def icon(icon_name):
     st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
 
-local_css("/style.css")
+local_css("streamlit/style.css")
 remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
 remote_css('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
 
