@@ -122,17 +122,14 @@ def train_model_index(df, target, label='Up'):
 
 def model_predict(df, target):
     """We make our first prediction"""
-    labels = ['Up', 'Down', 'Cte']
+    labels = ['Label']
     df2 = pd.DataFrame()
     for lab in labels:
-        a, b, c, d , e, f, g, h= train_model_index(df, target, label=lab)
+        a, b, c, d , e, f, g, h= train_model_index(target, label=lab)
         best_label = tweet_index(df, a, b, c, d, e, f, g, h)
         best_label[lab] = best_label.indice.map(lambda x : sigmoid(x))
         df2 = df2.join(best_label[lab], how='outer')
-    df2['predicted_label'] = df2[['Up',"Down",'Cte']].max(axis=1)
-    df2.loc[df2['predicted_label'] == df2['Up'], 'predicted_label'] = 0
-    df2.loc[df2['predicted_label'] == df2['Down'], 'predicted_label'] = 1
-    df2.loc[df2['predicted_label'] == df2['Cte'], 'predicted_label'] = 2
+    df2['predicted_label'] = df2.Label.map(lambda x: 0 if x < 0.5 else 1)
     df2['predicted_label'] = df2['predicted_label'].astype(int)
     df2['target'] = target['Label']
     df2['succeed'] = df2['target'] == df2['predicted_label']

@@ -24,7 +24,6 @@ def subsample_sequence(df, length):
     last_possible = df.shape[0] - length
     random_start = np.random.randint(0, last_possible)
     df_sample = df[random_start: random_start+length]
-
     return df_sample
 
 def compute_means(X, df_mean):
@@ -39,7 +38,7 @@ def compute_means(X, df_mean):
 
 def split_subsample_sequence(df, length, df_mean=None):
     """Return one single sample (Xi, yi) containing one sequence each of length `length`"""
-    features_names = ['indice', 'bid']
+    features_names = ['indice']
     # Trick to save time during the recursive calls
     if df_mean is None:
         df_mean = df[features_names].mean()
@@ -49,22 +48,20 @@ def split_subsample_sequence(df, length, df_mean=None):
     # Create y_sample
     if df_subsample.shape[0] == 0: # Case if there is no targets at all remaining
         return split_subsample_sequence(df, length, df_mean) # Redraw by recursive call until it's not the case anymore
-    y_sample = df_subsample[['Label']]#.tail(1).iloc[0]
+    y_sample = df_subsample[['0','1']]#.tail(1).iloc[0]
     # Create X_sample
     X_sample = df_subsample[features_names]
     if X_sample.isna().sum().sum() !=0:  # Case X_sample has some NaNs
         X_sample = X_sample.fillna(compute_means(X_sample, df_mean))
-        
     return np.array(X_sample), np.array(y_sample)
 
 def get_X_y(df, sequence_lengths):
     '''Return a dataset (X, y)'''
     X, y = [], []
-
     for length in sequence_lengths:
         xi, yi = split_subsample_sequence(df, length)
         X.append(xi)
-        y.append(to_categorical(yi))
+        y.append(yi)
         
     return X, y
 
@@ -81,19 +78,17 @@ def init_model():
     model.add(layers.GRU(128, return_sequences=True, activation='tanh',dropout=0.1))
     model.add(layers.GRU(64, return_sequences=True, activation='tanh',dropout=0.2))
     model.add(layers.GRU(32, return_sequences=True, activation='tanh', dropout=0.3 )) 
-    model.add(layers.Dense(3, activation='softmax'))
+    model.add(layers.Dense(2, activation='softmax'))
     
     model.compile(
         optimizer=adam,
         loss="categorical_crossentropy",
-        metrics=["categorical_accuracy"],
-    )
+        metrics=["categorical_accuracy"])
     return model
 
 def train_split(df): 
     # Here we define the parameter to generate our train/test sets
     train_size = 600
-    #test_size = round(0.6*train_size)
     min_seq_len = 20
     max_seq_len = 30
     sequence_lengths_train = np.random.randint(low=min_seq_len, high=max_seq_len, size=train_size)
@@ -111,8 +106,7 @@ def train_model(X_train, y_train):
             validation_split=0.2, 
             batch_size=32,
             callbacks=[es], 
-            verbose=1,
-            )
+            verbose=0)
     return history
 
 if __name__ == '__main__':
