@@ -3,7 +3,7 @@ our dataset"""
 
 import pandas as pd
 import numpy as np
-from data import get_data, get_clean_data
+from datos import get_data, get_clean_data
 
 
 df1, df2 = get_data()   
@@ -25,6 +25,7 @@ def tweet_index(dfX, a, b, c, d, e, f, g, h):
     return dfX
 
 def gradient(Y, *args):
+    """We are going to make a function that calculate the gradient, that we are going to use"""
     df2 = tweet_index(*args)
     df2['prediction'] = df2.indice.map(lambda x: sigmoid(x))
     d_a = np.sum(tweet_index(args[0],1,0,args[3],args[4], args[5],args[6],args[7],args[8]).indice*(df2.prediction-Y))
@@ -38,6 +39,7 @@ def gradient(Y, *args):
     return d_a, d_b, d_c, d_d, d_e, d_f, d_g, d_h
 
 def loss(Y, *args):
+    """We calculate the loss making our own function"""
     df2 = tweet_index(*args)
     df2['prediction'] = df2.indice.map(lambda x: sigmoid(x))
     df2.sort_values(by="fecha")
@@ -66,6 +68,7 @@ def update_params(*args):
     return a_new , b_new, c_new, d_new, e_new, f_new, g_new, h_new
 
 def train_model(target, label='Up'):
+    """We train our model using the functions we have create before"""
     a = 0.1
     b = 0.1
     c = 0.1
@@ -116,6 +119,7 @@ def train_model(target, label='Up'):
     return a,b,c,d,e,f,g,h
 
 def model_predict(df, target):
+    """We make our first prediction"""
     labels = ['Up', 'Down', 'Cte']
     df2 = pd.DataFrame()
     for lab in labels:
