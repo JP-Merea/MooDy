@@ -6,19 +6,15 @@ wheel>=0.29
 
 # data science
 numpy
-pandas
-nltk
-scikit-learn
+pandas==1.0.3
+scikit-learn==0.22.2.post1
 pysentimiento
 joblib
-streamlit
+streamlit==0.56.0
 heroku
-memoized-property
-mlflow
 s3fs
 gcsfs
-termcolor
-uvicorn 
+uvicorn
 fastapi
 
 
@@ -31,12 +27,9 @@ yapf
 
 # API
 gcsfs
-google-cloud-storage
-mlflow
 s3fs
 
 # utilities
 six>=1.14
 joblib
 memoized-property
-termcolor
