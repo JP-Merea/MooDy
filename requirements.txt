@@ -7,10 +7,6 @@ wheel>=0.29
 # data science
 numpy
 pandas
-seaborn
-math
-numpy
-matplotlib.pyplot
 string
 nltk
 re
@@ -23,7 +19,6 @@ memoized-property
 mlflow
 s3fs
 gcsfs
-google-cloud-storage
 termcolor
 uvicorn 
 fastapi
