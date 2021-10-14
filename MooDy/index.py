@@ -16,7 +16,8 @@ def get_labels(threshold, df):
 
 def sigmoid(x):
     """we are going to use to change a linear model to a logit one"""
-    return 1 / (1 + np.exp(-x))
+    sig = 1 / (1 + np.exp(-x))
+    return sig
 
 def tweet_index(dfX, a, b, c, d, e, f, g, h):
     
@@ -43,7 +44,8 @@ def loss(Y, *args):
     df2 = tweet_index(*args)
     df2['prediction'] = df2.indice.map(lambda x: sigmoid(x))
     df2.sort_values(by="fecha")
-    return -((1/(Y.count()))*np.sum(Y*np.log(df2['prediction']) + (1-Y)*np.log(1-(df2['prediction']))))
+    losses =  -((1/(Y.count()))*np.sum(Y*np.log(df2['prediction']) + (1-Y)*np.log(1-(df2['prediction']))))
+    return losses 
 
 def steps(*args, learning_rate = 0.01):
     step_a = args[0]*learning_rate
@@ -67,7 +69,7 @@ def update_params(*args):
     h_new = args[7] - args[15]
     return a_new , b_new, c_new, d_new, e_new, f_new, g_new, h_new
 
-def train_model(df, target, label='Up'):
+def train_model_index(df, target, label='Up'):
     """We train our model using the functions we have create before"""
     a = 0.1
     b = 0.1
@@ -123,7 +125,7 @@ def model_predict(df, target):
     labels = ['Up', 'Down', 'Cte']
     df2 = pd.DataFrame()
     for lab in labels:
-        a, b, c, d , e, f, g, h= train_model(target, label=lab)
+        a, b, c, d , e, f, g, h= train_model_index(df, target, label=lab)
         best_label = tweet_index(df, a, b, c, d, e, f, g, h)
         best_label[lab] = best_label.indice.map(lambda x : sigmoid(x))
         df2 = df2.join(best_label[lab], how='outer')
@@ -135,3 +137,7 @@ def model_predict(df, target):
     df2['target'] = target['Label']
     df2['succeed'] = df2['target'] == df2['predicted_label']
     return df2
+
+if __name__ == '__main__':
+    df, blue = get_data()
+    df = get_clean_data(df, blue)

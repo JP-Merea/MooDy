@@ -1,7 +1,6 @@
-
-import joblib
 import numpy as np
 import pandas as pd 
+from index import *
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras import layers
 from tensorflow.keras import models
@@ -11,6 +10,7 @@ from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
+from datos import get_data, get_clean_data
 
 
 #df = pd.read_csv('/content/drive/MyDrive/lstm_input2.csv')
@@ -21,19 +21,16 @@ def subsample_sequence(df, length):
     Given the initial dataframe `df`, return a shorter dataframe sequence of length `length`.
     This shorter sequence should be selected at random.
     """
-    
     last_possible = df.shape[0] - length
-    
     random_start = np.random.randint(0, last_possible)
     df_sample = df[random_start: random_start+length]
-    
+
     return df_sample
 
 def compute_means(X, df_mean):
     '''utils'''
     # Compute means of X
     means = X.mean()
-    
     # Case if ALL values of at least one feature of X are NaN, then reaplace with the whole df_mean
     if means.isna().sum() != 0:
         means.fillna(df_mean, inplace=True)
@@ -43,21 +40,16 @@ def compute_means(X, df_mean):
 def split_subsample_sequence(df, length, df_mean=None):
     """Return one single sample (Xi, yi) containing one sequence each of length `length`"""
     features_names = ['indice', 'bid']
-    
     # Trick to save time during the recursive calls
     if df_mean is None:
         df_mean = df[features_names].mean()
-        
     df_subsample = subsample_sequence(df, length).copy()
-    
     # Let's drop any row without a target! We need targets to fit our model
     df_subsample.dropna(how='any', subset=['Label'], inplace=True)
-    
     # Create y_sample
     if df_subsample.shape[0] == 0: # Case if there is no targets at all remaining
         return split_subsample_sequence(df, length, df_mean) # Redraw by recursive call until it's not the case anymore
     y_sample = df_subsample[['Label']]#.tail(1).iloc[0]
-    
     # Create X_sample
     X_sample = df_subsample[features_names]
     if X_sample.isna().sum().sum() !=0:  # Case X_sample has some NaNs
@@ -123,4 +115,10 @@ def train_model(X_train, y_train):
             )
     return history
 
-
+if __name__ == '__main__':
+    df, blue = get_data()
+    df = get_clean_data(df, blue)
+    target= get_labels(0, df)
+    a, b, c, d, e, f, g, h = train_model_index(df, target, label='Up')
+    dfX = tweet_index(df, a, b, c, d, e, f, g, h)
+    df_deep= get_labels(0, dfX)
