@@ -27,6 +27,7 @@ google-cloud-storage
 termcolor
 uvicorn 
 fastapi
+yaml
 
 
 # tests/linter

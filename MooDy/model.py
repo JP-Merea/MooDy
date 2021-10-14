@@ -33,7 +33,6 @@ def compute_means(X, df_mean):
     # Case if ALL values of at least one feature of X are NaN, then reaplace with the whole df_mean
     if means.isna().sum() != 0:
         means.fillna(df_mean, inplace=True)
-        
     return means
 
 def split_subsample_sequence(df, length, df_mean=None):
