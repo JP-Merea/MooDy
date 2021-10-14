@@ -6,11 +6,11 @@ wheel>=0.29
 
 # data science
 numpy
-pandas==1.0.3
-scikit-learn==0.22.2.post1
+pandas
+scikit-learn
 pysentimiento
 joblib
-streamlit==0.56.0
+streamlit
 heroku
 s3fs
 gcsfs
