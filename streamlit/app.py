@@ -11,19 +11,66 @@ st.set_page_config(
 )
 #######################################
 # css_path
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+# def local_css(file_name):
+#     with open(file_name) as f:
+#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-def remote_css(url):
-    st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)    
+# def remote_css(url):
+#     st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)    
 
-def icon(icon_name):
-    st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
+# def icon(icon_name):
+#     st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
 
-local_css("streamlit/style.css")
-remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
-remote_css('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+# local_css("streamlit/style.css")
+# remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
+# remote_css('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+
+st.markdown(
+        f"""
+<style>
+ .reportview-container .main .block-container{{
+    max-width: 80%;
+    padding-top: 5rem;
+    padding-right: 5rem;
+    padding-left: 5rem;
+    padding-bottom: 5rem;
+    color: red;
+}}
+.results-html{{
+    background-color: #0e1117;
+}}
+img{{
+    max-width:10%;
+    margin-bottom:10px;
+}}
+iframe{{
+    height: 290px;
+}}
+
+.alza{{
+    border: green 1px solid;
+    color: green;
+    font-size: 20px;
+    padding: 10px;
+    margin: 30px;
+    height: 50px;
+    width: auto;
+}}
+
+.baja{{
+    border: red 1px solid;
+    color: red;
+    font-size: 20px;
+    padding: 10px;
+    margin: 30px;
+    height: 50px;
+    width: auto;
+}}
+
+</style>
+""",
+        unsafe_allow_html=True,
+    )
 
 #######################################
 # containers
@@ -65,8 +112,6 @@ with results_container:
                 <div class="col-12">
                     <div class="row"><span class='results alza'>Alza: %{alza}</span></div>
                     <br>
-                    <div class="row"><span class='results estable'>Estable: %{estable}</span></div>
-                    <br>
                     <div class="row"><span class='results baja'>Baja: %{baja}</span></div>
                 </div>
             </row>
@@ -93,19 +138,3 @@ with dolar_widget_container:
     
     components.iframe("https://dolar-plus.com/api/widget")
     
-#url = 'https://taxifare.lewagon.ai/predict'
-
-#params = dict(
-#    pickup_datetime=pickup_datetime,
-#    pickup_longitude=pickup_longitude,
-#    pickup_latitude=pickup_latitude,
-#    dropoff_longitude=dropoff_longitude,
-#    dropoff_latitude=dropoff_latitude,
-#    passenger_count=passenger_count)
-
-#response = requests.get(url, params=params)
-
-#prediction = response.json()
-
-#pred = prediction['prediction'] 
-#pred
