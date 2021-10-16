@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="MooDy",
-    page_icon="logo.png",
+    page_icon="streamlit/logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -54,7 +54,7 @@ baja = -50
 with header_container:
 
     # img logo
-    st.image('logo.png')
+    st.image('streamlit/logo.png')
 
     # Headers and text
     st.title("Covid, Health and Economy Dilemma")
