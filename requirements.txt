@@ -15,6 +15,7 @@ s3fs
 gcsfs
 uvicorn
 fastapi
+tensorflow
 
 
 # tests/linter

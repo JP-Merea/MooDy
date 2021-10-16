@@ -83,8 +83,8 @@ with header_container:
         col_1, col_2= st.columns(2)
         alza = round(float(result[0][0][0]),2)
         baja = -(round(float(result[0][0][1]),2))
-        col_1.metric("Alza", round(float(result[0][0][0]),2), alza)
-        col_2.metric("Baja", round(float(result[0][0][1]),2), baja)
+        col_1.metric("Probabilidad de Alza", round(float(result[0][0][0]),2), alza)
+        col_2.metric("Probabilidad de Baja", round(float(result[0][0][1]),2), baja)
 
 with results_container:
     
