@@ -71,36 +71,37 @@ with header_container:
     
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+result = [np.ones((30, 2))]
 
-    if uploaded_file is not None:
-        filepath = 'streamlit/gru_model.h5'
-        data = pd.read_csv(uploaded_file)
-        model = load_model (filepath, custom_objects=None, compile=True, options=None)
-        X = np.array(data)
-        X_test_pad = pad_sequences(X, value=-1000., dtype=float, padding='post', maxlen=30)
-        result = model.predict(X_test_pad)
-        col_1, col_2= st.columns(2)
-        alza = round(float(result[0][0][0]),2)
-        baja = -(round(float(result[0][0][1]),2))
-        col_1.metric("Probabilidad de Alza", round(float(result[0][0][0]),2), alza)
-        col_2.metric("Probabilidad de Baja", round(float(result[0][0][1]),2), baja)
+if uploaded_file is not None:
+    filepath = 'streamlit/gru_model.h5'
+    data = pd.read_csv(uploaded_file)
+    model = load_model (filepath, custom_objects=None, compile=True, options=None)
+    X = np.array(data.indice).reshape(1,30)
+    X_test_pad = pad_sequences(X, value=-1000., dtype=float, padding='post', maxlen=30)
+    result = model.predict(X_test_pad)
+    st.write(X_test_pad)
+    col_1, col_2= st.columns(2)
+    alza = round(float(result[0][-1][0]),2)
+    baja = -(round(float(result[0][-1][1]),2))
+    col_1.metric("Probabilidad de Alza", round(float(result[0][-1][0]),2), alza)
+    col_2.metric("Probabilidad de Baja", round(float(result[0][-1][1]),2), baja)
 
-with results_container:
-    
-    @st.cache
-    def get_line_chart_data():
 
-        return pd.DataFrame(
-                np.random.randn(20, 3),
-                columns=['a', 'b', 'c']
+@st.cache
+
+def get_line_chart_data():
+    return pd.DataFrame(
+                result[0],
+                columns=['alza', 'baja']
             )
 
-    df = get_line_chart_data()
+df = get_line_chart_data()
 
-    st.line_chart(df)
+st.line_chart(df)
 
 
-with dolar_widget_container:
+
     
-    components.iframe("https://dolar-plus.com/api/widget")
+components.iframe("https://dolar-plus.com/api/widget")
