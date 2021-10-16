@@ -80,7 +80,6 @@ with header_container:
         X = np.array(data)
         X_test_pad = pad_sequences(X, value=-1000., dtype=float, padding='post', maxlen=30)
         result = model.predict(X_test_pad)
-        #st.write(result[0][0])
         col_1, col_2= st.columns(2)
         alza = round(float(result[0][0][0]),2)
         baja = -(round(float(result[0][0][1]),2))
