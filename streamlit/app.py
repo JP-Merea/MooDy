@@ -5,25 +5,12 @@ import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="MooDy",
-    page_icon="streamlit/logo.png",
+    page_icon="logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 #######################################
-# css_path
-# def local_css(file_name):
-#     with open(file_name) as f:
-#         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-
-# def remote_css(url):
-#     st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)    
-
-# def icon(icon_name):
-#     st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
-
-# local_css("streamlit/style.css")
-# remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
-# remote_css('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+# css
 
 st.markdown(
         f"""
@@ -47,26 +34,6 @@ iframe{{
     height: 290px;
 }}
 
-.alza{{
-    border: green 1px solid;
-    color: green;
-    font-size: 20px;
-    padding: 10px;
-    margin: 30px;
-    height: 50px;
-    width: auto;
-}}
-
-.baja{{
-    border: red 1px solid;
-    color: red;
-    font-size: 20px;
-    padding: 10px;
-    margin: 30px;
-    height: 50px;
-    width: auto;
-}}
-
 </style>
 """,
         unsafe_allow_html=True,
@@ -79,47 +46,35 @@ results_container = st.container()
 dolar_widget_container = st.container()	
 #######################################
 # variables
-alza = 100
-estable = 3
-baja = -5
+alza = '100%'
+baja = -50
 
 #######################################
 # body
 with header_container:
 
-    # for example a logo or a image that looks like a website header
-    st.image('streamlit/logo.png')
+    # img logo
+    st.image('logo.png')
 
-    # different levels of text you can include in your app
+    # Headers and text
     st.title("Covid, Health and Economy Dilemma")
     st.header("Correlation between social mood and local economy variable(Dolar)")
-    st.subheader("Le Wagon")
+    st.write("Information has always been a fundamental axis for any organization and institution, from the incorporation of artificial intelligence it has been possible to generate dynamic metrics that facilitate the reading of social humor, interests, and opinions. MooDy works in different level, first analyze if the comment is positive, negative, or neutral. For doing this we work in our threshold to make this difference representative. Then we evaluate the historical value of the dollar, and the model will predict if it’s goes up or down.")
+    
+    st.set_option('deprecation.showfileUploaderEncoding', False)
+
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+    if uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+        st.write(data)
  
 with results_container:
-    col_1, col_2 = st.columns(2)
     
-    filename = st.text_input('Enter a file path:')
-    try:
-        with open(filename) as input:
-            st.text(input.read())
-    except FileNotFoundError:
-        st.error('File not found.')
-    RESULTS = (f"""
-    <head><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"></head>
-    <body class='results-html'>
-        <div class='container'>
-            <row>
-                <div class="col-12">
-                    <div class="row"><span class='results alza'>Alza: %{alza}</span></div>
-                    <br>
-                    <div class="row"><span class='results baja'>Baja: %{baja}</span></div>
-                </div>
-            </row>
-        </div>
-    </body>
-    """)
-
-    col_1.write(RESULTS, unsafe_allow_html=True)
+    col_1, col_2= st.columns(2)
+    
+    col_1.metric("Alza", "$437.8", alza)
+    col_2.metric("Baja", "$121.10", baja)
 
     @st.cache
     def get_line_chart_data():
@@ -131,10 +86,9 @@ with results_container:
 
     df = get_line_chart_data()
 
-    col_2.line_chart(df)
-    
+    st.line_chart(df)
+
 
 with dolar_widget_container:
     
     components.iframe("https://dolar-plus.com/api/widget")
-    
