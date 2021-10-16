@@ -10,4 +10,4 @@ if __name__ == '__main__':
     X = np.array([[0.164680]])
     X_test_pad = pad_sequences(X, value=-1000., dtype=float, padding='post', maxlen=30)
     result = model.predict(X_test_pad)
-    print(result)
+    print(result[0],result[1])
