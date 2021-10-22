@@ -3,7 +3,7 @@ our dataset"""
 
 import pandas as pd
 import numpy as np
-from datos import get_data, get_clean_data
+from MooDy.datos import get_data, get_clean_data
 
 
 def get_labels(threshold, df):
