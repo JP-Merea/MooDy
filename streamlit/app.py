@@ -2,14 +2,18 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import streamlit.components.v1 as components
+import datetime
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences 
+from pysentimiento import EmotionAnalyzer, SentimentAnalyzer
+from PIL import Image
+
 
 st.set_page_config(
     page_title="MooDy",
     page_icon="streamlit/logo.png",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded", 
 )
 #######################################
 # css
@@ -17,6 +21,7 @@ st.set_page_config(
 st.markdown(
         f"""
 <style>
+    .main {{background-color: #101010;}}
     .reportview-container .main .block-container{{
     max-width: 80%;
     padding-top: 5rem;
@@ -37,7 +42,8 @@ img{{
 iframe{{
     height: 290px;
 }}
-
+.css-10trblm {{color: white;}}
+.css-1vgnld3 {{color: white;}}
 </style>
 """,
         unsafe_allow_html=True,
@@ -46,6 +52,9 @@ iframe{{
 #######################################
 # containers
 header_container = st.container()	
+extra_container = st.container()
+emo_container = st.container()
+sent_container = st.container()
 results_container = st.container()	
 dolar_widget_container = st.container()	
 #######################################
@@ -71,8 +80,42 @@ with header_container:
     
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
+
+d = st.date_input("The emotion in Argentina during covid",datetime.date(2020, 4, 24))
+st.write('the emotion of:', d, 'was')
+
+
+#emotional analyzer 
+#emo = st.text_input('Emotional Analyzer', '')
+#if emo is not None:
+#    emotion_analyzer = EmotionAnalyzer(lang="es")
+#    emo = emotion_analyzer.predict(emo)
+#    st.write('Your emotion is:', emo)
+
+
+
+#sentimental analyzer 
+#sent = st.text_input('Sentimental Analyzer', '')
+#if sent is not None:
+#    sentimental_analyzer = SentimentAnalyzer(lang="es")
+#    sent = sentimental_analyzer .predict(emo)
+#    st.write('Your sentiment is:', sent)
+
+
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 result = [np.ones((30, 2))]
+
+@st.cache
+def get_map_data():
+
+    return pd.DataFrame(
+            np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+            columns=['lat', 'lon']
+        )
+
+df = get_map_data()
+
+st.map(df)
 
 if uploaded_file is not None:
     filepath = 'streamlit/gru_model.h5'
@@ -90,14 +133,13 @@ if uploaded_file is not None:
 
 
 @st.cache
-
-def get_line_chart_data():
+def get_area_chart_data():
     return pd.DataFrame(
                 result[0],
                 columns=['alza', 'baja']
             )
 
-df = get_line_chart_data()
+df = get_area_chart_data()
 
 st.line_chart(df)
 
@@ -105,3 +147,6 @@ st.line_chart(df)
 
     
 components.iframe("https://dolar-plus.com/api/widget")
+
+image = Image.open('streamlit/logo_lewagon.png')
+st.image(image, caption='aprobe this project', use_column_width=False)
